@@ -22,7 +22,7 @@ const RenameDialog = ({
   nodes,
   setTriggerRenameDialog,
 }) => {
-  // const nodesV = useStore((state) => state.getNodes());
+  const nodesV = useStore((state) => state.getNodes());
   const [renameValue, setRenameValue] = useState("");
 
   const handleClose = () => {
@@ -37,7 +37,7 @@ const RenameDialog = ({
     });
     console.log("jjjjjjjj", objectEdit);
 
-    const newElement = nodes.map((item) => {
+    const newElement = nodesV.map((item) => {
       if (item.id === objectEdit?.id) {
         return {
           ...item,
@@ -77,6 +77,18 @@ const RenameDialog = ({
 
       <form onSubmit={handleSubmit}>
         <DialogContent>
+          {/* <TextField
+            onChange={(e) => {
+              setRenameValue(e.target.value);
+            }}
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Enter name here"
+            type="text"
+            fullWidth
+            variant="standard"
+          /> */}
           <Autocomplete
             disableClearable
             disablePortal

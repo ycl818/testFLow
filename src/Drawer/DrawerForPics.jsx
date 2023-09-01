@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import m1 from "../asset/a.png";
 import m2 from "../asset/b.png";
 import m3 from "../asset/c.png";
-import "./DrawerForPics.css";
+// import "../Sidebar.css";
 import { useStore, useStoreApi } from "reactflow";
 
 const DrawerForPics = ({
@@ -22,7 +22,7 @@ const DrawerForPics = ({
 
   const { nodeInternals } = store.getState();
 
-  // const nodesV = useStore((state) => state.getNodes());
+  const nodesV = useStore((state) => state.getNodes());
   const nodesLength = useMemo(() => {
     return Array.from(nodeInternals.values()).length || 0;
   }, [nodeInternals]);
@@ -104,7 +104,7 @@ const DrawerForPics = ({
           </div>
         </div>
 
-        {/* <section>
+        <section>
           <p style={{ textAlign: "center" }}>
             Current Cell Quantity: {nodesLength}
           </p>
@@ -133,7 +133,7 @@ const DrawerForPics = ({
               );
             })}
           </ul>
-        </section> */}
+        </section>
       </aside>
     </Drawer>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Circle from "../Circle/Circle";
+import Circle from "../Circle";
 
 const Light = ({ nodeData }) => {
   let containedDetailNode = nodeData["data"];
