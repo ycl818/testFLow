@@ -1,6 +1,5 @@
 import {
   Handle,
-  NodeResizeControl,
   Position,
   useNodesState,
   useStore,
@@ -14,29 +13,39 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { NodeResizer } from "@reactflow/node-resizer";
-import "@reactflow/node-resizer/dist/style.css";
+// import { NodeResizer } from "@reactflow/node-resizer";
+// import "@reactflow/node-resizer/dist/style.css";
 
 import m1 from "./asset/a.png";
 import m2 from "./asset/b.png";
 import m3 from "./asset/c.png";
 import { Box } from "@mui/material";
+import "./CustomNode.css";
 import Light from "./Light/Light";
 
+const sourceStyle = { zIndex: 1 };
+const connectionNodeIdSelector = (state) => state.connectionNodeId;
+
 export default React.memo(function CustomNode({ id, data, selected }) {
+  // console.log("file: CustomNode.jsx:27 ~ CustomNode ~ data:", data);
   const pic = useMemo(() => {
     if (data.image.url === "m1") {
-      return "m1";
+      return m1;
     } else if (data.image.url === "m2") {
-      return "m2";
+      return m2;
     } else if (data.image.url === "m3") {
-      return "m3";
+      return m3;
     }
   }, [data]);
+
+  const connectionNodeId = useStore(connectionNodeIdSelector);
+  const isConnecting = !!connectionNodeId;
+  const isTarget = connectionNodeId && connectionNodeId !== id;
+  // console.log("file: CustomNode.jsx:36 ~ pic ~ pic:", pic);
   return (
     <>
-      <Handle className="customHandle" position={Position.Left} type="target" />
-      <div className="customNode">
+      {/* <Handle className="customHandle" position={Position.Left} type="target" /> */}
+      <Box className="customNode">
         {/* <NodeResizer
         color="#ff0071"
         isVisible={selected}
@@ -66,8 +75,23 @@ export default React.memo(function CustomNode({ id, data, selected }) {
           {/* If handles are conditionally rendered and not present initially, you need to update the node internals https://reactflow.dev/docs/api/hooks/use-update-node-internals/ */}
           {/* In this case we don't need to use useUpdateNodeInternals, since !isConnecting is true at the beginning and all handles are rendered initially. */}
 
+          {!isConnecting && (
+            <Handle
+              className="customHandle"
+              position={Position.Right}
+              type="source"
+              style={sourceStyle}
+            />
+          )}
+
+          <Handle
+            className="customHandle"
+            position={Position.Left}
+            type="target"
+          />
+
           <img
-            src={m1}
+            src={pic}
             alt={data.image.alt}
             style={{
               objectFit: "contain",
@@ -93,7 +117,7 @@ export default React.memo(function CustomNode({ id, data, selected }) {
           }}
         >
           <input
-            placeholder="Enter name"
+            placeholder="node"
             name="text"
             disabled
             id={id}
@@ -109,7 +133,7 @@ export default React.memo(function CustomNode({ id, data, selected }) {
           />
           <Light nodeData={data} />
         </div>
-      </div>
+      </Box>
     </>
   );
 });

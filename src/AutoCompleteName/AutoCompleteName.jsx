@@ -6,13 +6,13 @@ const AutoCompleteName = ({
   objectEdit,
   setObjectEdit,
   setNodes,
-  nodesV,
+  nodes,
   stateForAutoComplete,
   setStateForAutoComplete,
   setTriggerRenameDialog,
   triggerRenameDialog,
 }) => {
-  // console.log("file: AutoCompleteName.jsx:11 ~ nodesV:", nodesV);
+  console.log("file: AutoCompleteName.jsx:11 ~ nodes:", nodes);
   // const nodeDataArray = Object.entries(nodeData);
   // console.log("file: AutoCompleteName.jsx:17 ~ nodeDataArray:", nodeDataArray)
 
@@ -27,15 +27,15 @@ const AutoCompleteName = ({
   const [cellName, setCellName] = useState("");
   const [touch, setTouch] = useState(false);
 
-  // useEffect(() => {
-  //   // if (touch) {
-  //   //   setCellName(nodeData["data"].name);
-  //   // }
-  //   if (stateForAutoComplete) {
-  //     setCellName(nodeData["data"].name);
-  //     setStateForAutoComplete(false);
-  //   }
-  // }, [nodeData]);
+  useEffect(() => {
+    if (touch) {
+      setCellName(nodeData["data"].name);
+    }
+    if (stateForAutoComplete) {
+      setCellName(nodeData["data"].name);
+      setStateForAutoComplete(false);
+    }
+  }, [nodeData]);
 
   useEffect(() => {
     if (triggerRenameDialog && !nodeData["data"].name.includes("node")) {
@@ -52,12 +52,13 @@ const AutoCompleteName = ({
 
   const onBlur = () => {
     console.log(cellName);
+    console.log("file: AutoCompleteName.jsx:15 ~ objectEdit:", objectEdit);
     setObjectEdit({
       ...objectEdit,
       data: { ...objectEdit?.data, name: cellName },
     });
 
-    const newElement = nodesV.map((item) => {
+    const newElement = nodes.map((item) => {
       if (item.data.id === objectEdit?.id) {
         return {
           ...item,
@@ -66,6 +67,10 @@ const AutoCompleteName = ({
       }
       return item;
     });
+    console.log(
+      "file: AutoCompleteName.jsx:70 ~ newElement ~ newElement:",
+      newElement
+    );
 
     setNodes(newElement);
   };
